@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chat GPT Widget</title>
+  <style>
+    .chat-widget {
+      width: 350px;
+      height: 500px;
+      border: 1px solid #ccc;
+      overflow: auto;
+      padding: 10px;
+      margin: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    .chat-widget p {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-widget">
+    <p>Hello, how can I help you?</p>
+  </div>
+  <script>
+    function sendMessage() {
+      var input = document.getElementById('input');
+      var widget = document.querySelector('.chat-widget');
+      var message = input.value.trim();
+      input.value = '';
+
+      if (message.length > 0) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/chat', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              var response = xhr.responseText;
+              widget.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
+              widget.innerHTML += '<p><strong>Chat GPT:</strong> ' + response + '</p>';
+              widget.scrollTop = widget.scrollHeight;
+            } else {
+              console.log('Error:', xhr.statusText);
+            }
+          }
+        };
+        xhr.send('text=' + encodeURIComponent(message));
+      }
+    }
+
+    var input = document.getElementById('input');
+    input.addEventListener('keydown', function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
