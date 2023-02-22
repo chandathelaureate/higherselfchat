@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OpenAI Widget</title>
+    <title>Higher Self Chat</title>
   </head>
   <body>
-    <div id="response"></div>
-    <script src="https://cdn.jsdelivr.net/npm/@openai/api@0.4.5"></script>
-    <script src="script.js"></script>
+    <h1>Spiritual Advice</h1>
+    <form method="POST">
+      <label for="prompt">What is your question:</label><br>
+      <input type="text" id="prompt" name="prompt"><br>
+      <input type="submit" value="Get Advice">
+    </form>
+    {% if response %}
+      <p>{{ response }}</p>
+    {% endif %}
   </body>
 </html>
